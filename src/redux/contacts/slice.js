@@ -10,7 +10,7 @@ const rejectedReduces = (state, action) => {
   state.loading = false;
 };
 
-const contactInitialState = {
+export const contactInitialState = {
   items: [],
   loading: false,
   error: null,
@@ -19,6 +19,9 @@ const contactInitialState = {
 const contactsSlice = createSlice({
   name: "contacts",
   initialState: contactInitialState,
+  reducers: {
+    cleanUpContacts: () => contactInitialState,
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchContacts.pending, pendingReduces)
@@ -43,3 +46,4 @@ const contactsSlice = createSlice({
 });
 
 export const contactsReduser = contactsSlice.reducer;
+export const { cleanUpContacts } = contactsSlice.actions;
