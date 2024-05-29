@@ -16,6 +16,9 @@ export const register = createAsyncThunk(
   async (data, thunkApi) => {
     try {
       const response = await axios.post("/users/signup", data);
+
+      setAuthorizationHeader(response.data.token);
+
       return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
@@ -26,6 +29,9 @@ export const register = createAsyncThunk(
 export const login = createAsyncThunk("auth/login", async (data, thunkApi) => {
   try {
     const response = await axios.post("/users/signup", data);
+
+    setAuthorizationHeader(response.data.token);
+
     return response.data;
   } catch (error) {
     return thunkApi.rejectWithValue(error.message);
@@ -34,8 +40,8 @@ export const login = createAsyncThunk("auth/login", async (data, thunkApi) => {
 
 export const logout = createAsyncThunk("auth/logout", async (_, thunkApi) => {
   try {
-    const response = await axios.post("/users/logout");
-    return response.data;
+    await axios.post("/users/logout");
+    removeAuthorizationHeader();
   } catch (error) {
     return thunkApi.rejectWithValue(error.message);
   }
@@ -44,7 +50,15 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkApi) => {
 export const refreshUser = createAsyncThunk(
   "auth/refresh",
   async (_, thunkApi) => {
+    const state = thunkApi.getState();
+    const token = state.auth.token;
+
+    if (token === null) {
+      return thunkApi.rejectWithValue("Token not found");
+    }
+
     try {
+      setAuthorizationHeader(token);
       const response = await axios.get("/users/current");
       return response.data;
     } catch (error) {
