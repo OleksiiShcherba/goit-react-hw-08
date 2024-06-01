@@ -9,7 +9,10 @@ export const selectFilteredContacts = createSelector(
     const searchableLine = filter?.toLowerCase();
     if (searchableLine) {
       return contacts.filter((contact) => {
-        return contact?.name.toLowerCase().includes(searchableLine);
+        return (
+          contact?.name.toLowerCase().includes(searchableLine) ||
+          contact?.number.includes(searchableLine)
+        );
       });
     } else {
       return contacts;

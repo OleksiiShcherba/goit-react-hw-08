@@ -6,6 +6,9 @@ import { contactsReduser } from "./contacts/slice";
 import { filtersReduser } from "./filters/slice";
 import { authReducer } from "./auth/slice";
 
+import axios from "axios";
+axios.defaults.baseURL = "https://connections-api.goit.global/";
+
 const persistConfig = {
   key: "root",
   storage,

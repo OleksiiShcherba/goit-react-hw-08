@@ -1,21 +1,21 @@
-import "./App.css";
 import "modern-normalize";
 
 import { useDispatch } from "react-redux";
 import { useEffect, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
-import Layout from "./components/Layout";
-import PrivateRoute from "./components/PrivateRoute";
-import RestrictedRoute from "./components/RestrictedRoute";
+import Layout from "./Layout";
+import PrivateRoute from "./PrivateRoute";
+import RestrictedRoute from "./RestrictedRoute";
 
-import { refreshUser } from "./redux/auth/operations";
+import { refreshUser } from "../redux/auth/operations";
 
-const HomePage = lazy(() => import("./pages/HomePage/HomePage"));
-const ContactsPage = lazy(() => import("./pages/ContactsPage/ContactsPage"));
-const LoginPage = lazy(() => import("./pages/LoginPage/LoginPage"));
+const HomePage = lazy(() => import("../pages/HomePage/HomePage"));
+const ContactsPage = lazy(() => import("../pages/ContactsPage/ContactsPage"));
+const LoginPage = lazy(() => import("../pages/LoginPage/LoginPage"));
 const RegistrationPage = lazy(() =>
-  import("./pages/RegistrationPage/RegistrationPage")
+  import("../pages/RegistrationPage/RegistrationPage")
 );
 
 function App() {
@@ -32,25 +32,29 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route
             path="/contacts"
-            element={<PrivateRoute component={ContactsPage} />}
+            element={<PrivateRoute component={<ContactsPage />} />}
           />
           <Route
             path="/login"
             element={
-              <RestrictedRoute component={LoginPage} redirectTo="/contacts" />
+              <RestrictedRoute
+                component={<LoginPage />}
+                redirectTo="/contacts"
+              />
             }
           />
           <Route
             path="/registration"
             element={
               <RestrictedRoute
-                component={RegistrationPage}
+                component={<RegistrationPage />}
                 redirectTo="/contacts"
               />
             }
           />
         </Routes>
       </Layout>
+      <Toaster position="top-right" />
     </div>
   );
 }
