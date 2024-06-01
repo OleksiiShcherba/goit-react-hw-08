@@ -11,7 +11,7 @@ const SearchBox = () => {
 
   return (
     <div className={css.searchBlock}>
-      <label htmlFor={searchId}>Find contacts by name</label>
+      <label htmlFor={searchId}>Find contacts by name or phone number</label>
       <input
         className={css.searchInput}
         type="text"
