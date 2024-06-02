@@ -44,7 +44,7 @@ function App() {
             }
           />
           <Route
-            path="/registration"
+            path="/register"
             element={
               <RestrictedRoute
                 component={<RegistrationPage />}

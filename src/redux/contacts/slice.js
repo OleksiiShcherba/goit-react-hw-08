@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchContacts, addContact, deleteContact } from "./operations";
+import { logout } from "../auth/operations";
 import toast from "react-hot-toast";
 
 const pendingReduces = (state) => {
@@ -44,6 +45,9 @@ const contactsSlice = createSlice({
           (contact) => contact.id !== action.payload
         );
         toast.success("Contact deleted successfully!");
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state = contactInitialState;
       });
   },
 });
