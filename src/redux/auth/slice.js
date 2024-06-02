@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { register, login, logout, refreshUser } from "./operations";
 import toast from "react-hot-toast";
 
+const NOT_AUTHORIZED_CODE = "401";
+
 const initialState = {
   user: {
     name: null,
@@ -53,6 +55,11 @@ const authSlice = createSlice({
         state.isRefreshing = false;
       })
       .addCase(refreshUser.rejected, (state, action) => {
+        if (action?.payload.includes(NOT_AUTHORIZED_CODE)) {
+          state.user = { ...initialState.user };
+          state.token = null;
+          state.isLoggedIn = false;
+        }
         state.isRefreshing = false;
       });
   },

@@ -47,7 +47,7 @@ const contactsSlice = createSlice({
         toast.success("Contact deleted successfully!");
       })
       .addCase(logout.fulfilled, (state) => {
-        state = contactInitialState;
+        state.items = [];
       });
   },
 });
